@@ -1,0 +1,17 @@
+/**
+ * Standard content container. Media that should run full-bleed sits
+ * outside a Container; everything else sits inside one.
+ */
+export default function Container({
+  children,
+  className = "",
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <div className={`mx-auto w-full max-w-[76rem] px-5 sm:px-8 ${className}`}>
+      {children}
+    </div>
+  );
+}

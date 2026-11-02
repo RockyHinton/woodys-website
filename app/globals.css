@@ -1,26 +1,82 @@
 @import "tailwindcss";
 
+/* ------------------------------------------------------------------
+   Design tokens
+   ------------------------------------------------------------------
+   Dark interface. The images and text provide the light.
+
+   These are the initial system values — treat them as a starting
+   point to refine during design review, not immovable requirements.
+------------------------------------------------------------------- */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Surfaces */
+  --background: #0c0c0b; /* page background (near-black, warm) */
+  --surface: #131312; /* secondary dark surface */
+
+  /* Ink */
+  --ink: #f1eee8; /* primary warm text */
+  --ink-muted: #a8a39b; /* secondary / muted text */
+
+  /* Lines */
+  --hairline: #292825; /* subtle hairlines and borders */
+  --hairline-strong: #3a3833; /* hover state for hairlines */
+
+  /* ----------------------------------------------------------------
+     Typography tokens
+
+     --font-display is reserved for Windsor Light Condensed.
+     The licensed webfont is not yet available, so the stack below
+     falls through to a TEMPORARY serif fallback (Georgia et al.).
+
+     When the licensed .woff2 arrives:
+       1. Place it at /public/fonts/windsor-light-condensed.woff2
+       2. Add the @font-face rule documented in the project README
+       3. No other change is required — the family name below
+          will resolve to the local file.
+  ---------------------------------------------------------------- */
+  --font-display: "Windsor Light Condensed", "Iowan Old Style", Georgia,
+    "Times New Roman", serif;
+  --font-body: "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
 }
 
 @theme inline {
   --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-hairline: var(--hairline);
+  --color-hairline-strong: var(--hairline-strong);
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
 }
 
 body {
   background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: var(--ink);
+  color: var(--background);
+}
+
+:focus-visible {
+  outline: 1px solid var(--ink-muted);
+  outline-offset: 3px;
+}
+
+/* Respect reduced-motion preferences globally. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

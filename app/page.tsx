@@ -1,69 +1,190 @@
-import Image from "next/image";
+import Link from "next/link";
+import Container from "@/components/Container";
+import SectionHeader from "@/components/SectionHeader";
+import ImagePlaceholder from "@/components/ImagePlaceholder";
+import FilmCard from "@/components/FilmCard";
+import MetaLabel from "@/components/MetaLabel";
+import { getAllFilms } from "@/lib/films";
+import { BEYOND_FILM_AREAS, EXPLORE_EXPERIENCES } from "@/content/site";
 
-export default function Home() {
+/**
+ * Homepage — the curator of the archive. Each section establishes
+ * rhythm and hierarchy for a future feature; none is fully built yet.
+ */
+export default function HomePage() {
+  const films = getAllFilms();
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
+    <>
+      {/* 1 — Cinematic hero: a full-bleed, image-led opening. */}
+      <section aria-label="Introduction" className="border-b border-hairline">
+        <div className="relative">
+          <ImagePlaceholder
+            label="Hero photography"
+            aspect="4/5"
+            className="border-0 sm:hidden"
+          />
+          <div className="hidden sm:block">
+            <ImagePlaceholder
+              label="Hero photography"
+              aspect="21/9"
+              className="border-0"
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+          </div>
+          <div className="absolute inset-0 flex items-end">
+            <Container className="pb-12 sm:pb-16">
+              <MetaLabel className="mb-4">Writer · Director · Actor</MetaLabel>
+              <h1 className="font-display text-6xl leading-[0.9] tracking-tight sm:text-8xl">
+                Woody Allen
+              </h1>
+              <p className="mt-5 max-w-md text-sm leading-relaxed text-ink-muted sm:text-base">
+                Six decades of films, writing, theatre and music, in one
+                place.
+              </p>
+            </Container>
+          </div>
         </div>
-      </main>
-    </div>
+      </section>
+
+      {/* 2 — Films */}
+      <section aria-labelledby="home-films" className="pt-20 sm:pt-28">
+        <Container>
+          <SectionHeader
+            eyebrow="The Work"
+            id="home-films"
+            title="Films"
+            description="The complete filmography, from the first picture to the most recent."
+            link={{ label: "All films", href: "/films" }}
+          />
+          <div className="mt-10 grid grid-cols-2 gap-x-5 gap-y-10 sm:gap-x-8 lg:grid-cols-4">
+            {films.slice(0, 2).map((film) => (
+              <FilmCard key={film.slug} film={film} />
+            ))}
+            {/* Placeholder slots until the filmography is populated. */}
+            <div className="hidden lg:block">
+              <ImagePlaceholder label="Poster" aspect="2/3" />
+            </div>
+            <div className="hidden lg:block">
+              <ImagePlaceholder label="Poster" aspect="2/3" />
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* 3 — On This Day: compact editorial strip. */}
+      <section aria-labelledby="home-on-this-day" className="pt-20 sm:pt-28">
+        <Container>
+          <div className="border-y border-hairline py-10 sm:py-12">
+            <div className="flex flex-col gap-6 sm:flex-row sm:items-baseline sm:justify-between">
+              <div>
+                <MetaLabel className="mb-3">On This Day</MetaLabel>
+                <p id="home-on-this-day" className="max-w-xl font-display text-2xl leading-snug tracking-tight sm:text-3xl">
+                  A daily note from the archive — premieres, openings and
+                  moments, matched to the date.
+                </p>
+              </div>
+              <Link
+                href="/explore/on-this-day"
+                className="shrink-0 text-sm text-ink-muted underline decoration-hairline-strong underline-offset-4 transition-colors duration-200 hover:text-ink hover:decoration-ink-muted"
+              >
+                About this feature
+              </Link>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* 4 — From the Archive */}
+      <section aria-labelledby="home-archive" className="pt-20 sm:pt-28">
+        <Container>
+          <SectionHeader
+            eyebrow="The Material"
+            id="home-archive"
+            title="From the Archive"
+            description="Screenplays, photography, posters and production material — the original record behind the finished work."
+            link={{ label: "Enter the archive", href: "/archive" }}
+          />
+          <div className="mt-10 grid grid-cols-2 gap-5 sm:gap-8 lg:grid-cols-3">
+            <ImagePlaceholder label="Screenplay page" aspect="3/4" />
+            <ImagePlaceholder label="Photography" aspect="3/4" />
+            <ImagePlaceholder
+              label="Poster artwork"
+              aspect="3/4"
+              className="hidden lg:flex"
+            />
+          </div>
+        </Container>
+      </section>
+
+      {/* 5 — Explore */}
+      <section aria-labelledby="home-explore" className="pt-20 sm:pt-28">
+        <Container>
+          <SectionHeader
+            eyebrow="New Ways In"
+            id="home-explore"
+            title="Explore"
+            description="Map, Timeline, On This Day, Quotes, By the Numbers — different routes through the same body of work."
+            link={{ label: "Explore", href: "/explore" }}
+          />
+          <ul className="mt-10">
+            {EXPLORE_EXPERIENCES.map((experience) => (
+              <li key={experience.slug} className="border-b border-hairline">
+                <Link
+                  href={experience.href}
+                  className="group flex items-baseline justify-between gap-6 py-5"
+                >
+                  <span className="font-display text-2xl tracking-tight sm:text-3xl">
+                    <span className="underline decoration-transparent underline-offset-4 transition-colors duration-300 group-hover:decoration-ink-muted">
+                      {experience.title}
+                    </span>
+                  </span>
+                  <span className="hidden max-w-sm text-right text-sm text-ink-muted sm:block">
+                    {experience.description}
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </Container>
+      </section>
+
+      {/* 6 — Beyond Film */}
+      <section aria-labelledby="home-beyond" className="pt-20 sm:pt-28">
+        <Container>
+          <SectionHeader
+            eyebrow="Also"
+            id="home-beyond"
+            title="Beyond Film"
+            description="Books, theatre, music, television."
+            link={{ label: "Beyond film", href: "/beyond-film" }}
+          />
+          <div className="mt-10 grid grid-cols-2 gap-5 sm:gap-8 lg:grid-cols-4">
+            {BEYOND_FILM_AREAS.map((area) => (
+              <div key={area.slug}>
+                <ImagePlaceholder label={area.title} aspect="4/5" />
+                <p className="mt-3 text-sm">{area.title}</p>
+              </div>
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      {/* 7 — Latest */}
+      <section aria-labelledby="home-latest" className="pt-20 sm:pt-28">
+        <Container>
+          <SectionHeader
+            eyebrow="Current"
+            id="home-latest"
+            title="Latest"
+            description="News and current work."
+            link={{ label: "All news", href: "/news" }}
+          />
+          <p className="mt-8 max-w-xl text-sm leading-relaxed text-ink-muted">
+            Recent articles will appear here once the news section carries
+            real entries.
+          </p>
+        </Container>
+      </section>
+    </>
   );
 }
