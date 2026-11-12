@@ -24,7 +24,13 @@ export interface ImageAsset {
 }
 
 /** Roles Woody Allen held on a given work. */
-export type Role = "Director" | "Writer" | "Actor" | "Performer" | "Producer";
+export type Role =
+  | "Director"
+  | "Writer"
+  | "Actor"
+  | "Narrator"
+  | "Performer"
+  | "Producer";
 
 export interface CastMember {
   name: string;
@@ -84,6 +90,17 @@ export interface Film {
   /** Woody Allen's roles on the film. */
   roles?: Role[];
 
+  /**
+   * Distinguishes the theatrical features from the anthology segment
+   * and the television film. Absent = theatrical feature.
+   */
+  kind?: "feature" | "segment" | "television";
+  /** Shown with the title where kind is set, e.g. "A segment of New York Stories". */
+  kindNote?: string;
+
+  /** Primary release date, ISO (YYYY-MM-DD), where verified. */
+  releaseDate?: string;
+
   poster?: ImageAsset;
   heroImage?: ImageAsset;
 
@@ -99,6 +116,10 @@ export interface Film {
   quotations?: Quotation[];
   locations?: FilmingLocation[];
   productionNotes?: string[];
+  /** Curated editorial lines, not an exhaustive award table. */
+  awards?: string[];
+  /** One line on the film's musical approach or key pieces. */
+  musicNote?: string;
   /** International poster artwork. */
   internationalArtwork?: ImageAsset[];
   /** Screenplay pages, drafts and other archive material. */
@@ -107,6 +128,116 @@ export interface Film {
   /** URL of the film's page on the previous woodyallen.com. */
   legacyUrl?: string;
   relatedArchiveItems?: ArchiveItemRef[];
+}
+
+/* ------------------------------------------------------------------
+   Timeline (/explore/timeline)
+------------------------------------------------------------------- */
+
+export type TimelineCategory =
+  | "film"
+  | "writing"
+  | "theatre"
+  | "television"
+  | "music"
+  | "award"
+  | "career"
+  | "life";
+
+export interface TimelineEvent {
+  year: number;
+  /** Display year text where a span reads better, e.g. "1963". Defaults to year. */
+  yearLabel?: string;
+  title: string;
+  /** One short sentence of context. Optional — many events carry none. */
+  detail?: string;
+  category: TimelineCategory;
+  /** Major events get display treatment and breathing room. */
+  emphasis?: boolean;
+  /** Link target, e.g. a film page. */
+  href?: string;
+}
+
+/* ------------------------------------------------------------------
+   Beyond Film
+------------------------------------------------------------------- */
+
+export interface BeyondFilmWork {
+  title: string;
+  /** Year or span, e.g. "1971" or "1964–1968". */
+  year?: string;
+  note?: string;
+}
+
+export interface BeyondFilmSection {
+  slug: string;
+  title: string;
+  /** Editorial introduction, one or two short paragraphs. */
+  intro: string[];
+  works: BeyondFilmWork[];
+  /** Label for the section's future imagery, e.g. "Book covers". */
+  mediaLabel: string;
+  /** Aspect ratio for the section's image placeholders. */
+  mediaAspect: string;
+}
+
+/* ------------------------------------------------------------------
+   By the Numbers (/explore/by-the-numbers)
+------------------------------------------------------------------- */
+
+export interface Statistic {
+  /** The figure as display text, e.g. "50", "95", "≈200". */
+  value: string;
+  label: string;
+  /** Methodology or context in one short sentence. */
+  note?: string;
+}
+
+export interface StatisticGroup {
+  title: string;
+  intro?: string;
+  items: Statistic[];
+}
+
+/* ------------------------------------------------------------------
+   Quotes (/explore/quotes)
+------------------------------------------------------------------- */
+
+export interface VerifiedStatement {
+  text: string;
+  attribution: string;
+  /** Where the quotation is verified, e.g. a publication and date. */
+  source: string;
+  /** Editorial context shown with the quote. */
+  context?: string;
+}
+
+/* ------------------------------------------------------------------
+   Archive
+------------------------------------------------------------------- */
+
+export interface ArchiveCategoryInfo {
+  slug: ArchiveCategory;
+  title: string;
+  description: string;
+  /** Confirmed holdings, stated factually. Empty until confirmed. */
+  confirmedHoldings: string[];
+}
+
+/* ------------------------------------------------------------------
+   Biography
+------------------------------------------------------------------- */
+
+export interface BiographySection {
+  /** Small marker above the heading, usually a span of years. */
+  eyebrow?: string;
+  heading: string;
+  paragraphs: string[];
+  /** How the section's future imagery should sit in the layout. */
+  media?: {
+    variant: "full" | "portrait" | "pair" | "landscape";
+    label: string;
+  };
 }
 
 export type NewsCategory =

@@ -2,50 +2,59 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Container from "@/components/Container";
 import PageIntro from "@/components/PageIntro";
-import ImagePlaceholder from "@/components/ImagePlaceholder";
+import MetaLabel from "@/components/MetaLabel";
 import { EXPLORE_EXPERIENCES } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Explore",
   description:
-    "New ways of discovering relationships across the work — map, timeline, quotes and more.",
+    "New ways through the work — timeline, numbers, quotes, map and more.",
 };
 
+/**
+ * An index of ways through the archive. Each experience is one clear
+ * concept; live experiences lead, foundations follow with a quiet
+ * "in development" marker.
+ */
 export default function ExplorePage() {
   return (
     <Container>
       <PageIntro
         eyebrow="New Ways In"
         title="Explore"
-        lede="The work can be read in order, or it can be wandered. These experiences — each in development — offer different routes through the same body of work."
+        lede="The work can be read in order, or it can be wandered. Each of these is a different route through the same six decades."
       />
-      <div className="grid gap-x-8 gap-y-14 border-t border-hairline pt-12 sm:grid-cols-2 lg:grid-cols-3">
+      <ul className="border-t border-hairline">
         {EXPLORE_EXPERIENCES.map((experience) => (
-          <Link
-            key={experience.slug}
-            href={experience.href}
-            className="group block"
-          >
-            <div className="overflow-hidden border border-hairline transition-colors duration-300 group-hover:border-hairline-strong">
-              <div className="transition-transform duration-500 ease-out group-hover:scale-[1.02] motion-reduce:transform-none">
-                <ImagePlaceholder
-                  label={experience.title}
-                  aspect="4/3"
-                  className="border-0"
-                />
+          <li key={experience.slug} className="border-b border-hairline">
+            <Link
+              href={experience.href}
+              className="group grid gap-x-8 gap-y-3 py-10 sm:grid-cols-2 sm:items-baseline sm:py-14"
+            >
+              <div>
+                <h2 className="font-display text-4xl leading-none tracking-tight sm:text-5xl">
+                  <span className="underline decoration-transparent underline-offset-8 transition-colors duration-300 group-hover:decoration-ink-muted">
+                    {experience.title}
+                  </span>
+                </h2>
+                <p className="mt-4 font-display text-xl tracking-tight text-ink-muted">
+                  {experience.concept}
+                </p>
               </div>
-            </div>
-            <h2 className="mt-5 font-display text-2xl tracking-tight sm:text-3xl">
-              <span className="underline decoration-transparent underline-offset-4 transition-colors duration-300 group-hover:decoration-ink-muted">
-                {experience.title}
-              </span>
-            </h2>
-            <p className="mt-3 max-w-md text-sm leading-relaxed text-ink-muted">
-              {experience.description}
-            </p>
-          </Link>
+              <div className="sm:justify-self-end sm:text-right">
+                <p className="max-w-sm text-sm leading-relaxed text-ink-muted sm:ml-auto">
+                  {experience.description}
+                </p>
+                {experience.status === "foundation" ? (
+                  <MetaLabel as="span" className="mt-3 inline-block">
+                    In Development
+                  </MetaLabel>
+                ) : null}
+              </div>
+            </Link>
+          </li>
         ))}
-      </div>
+      </ul>
     </Container>
   );
 }

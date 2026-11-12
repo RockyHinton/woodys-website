@@ -5,9 +5,9 @@ import ImagePlaceholder from "@/components/ImagePlaceholder";
 import { EXPLORE_EXPERIENCES } from "@/content/site";
 
 /**
- * Foundation template for a future Explore experience (Map, Timeline,
- * On This Day, Quotes, By the Numbers). Establishes where each
- * experience will live; the interactive functionality comes later.
+ * Foundation template for a future Explore experience (currently Map
+ * and On This Day). Establishes where the experience will live; the
+ * interactive work comes in its own development phase.
  */
 export default function ExploreExperiencePage({
   slug,
@@ -17,7 +17,7 @@ export default function ExploreExperiencePage({
   slug: (typeof EXPLORE_EXPERIENCES)[number]["slug"];
   /** What the main stage will eventually hold, e.g. "Interactive map". */
   placeholderLabel: string;
-  /** One sentence on what is planned for this experience. */
+  /** One or two sentences on what is planned for this experience. */
   note: string;
 }) {
   const experience = EXPLORE_EXPERIENCES.find((e) => e.slug === slug)!;
@@ -27,7 +27,7 @@ export default function ExploreExperiencePage({
       <PageIntro
         eyebrow="Explore"
         title={experience.title}
-        lede={experience.description}
+        lede={`${experience.concept} ${experience.description}`}
       />
       <div className="border-t border-hairline pt-12">
         <ImagePlaceholder label={placeholderLabel} aspect="16/9" />

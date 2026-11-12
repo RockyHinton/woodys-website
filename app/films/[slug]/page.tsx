@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Container from "@/components/Container";
 import ImagePlaceholder from "@/components/ImagePlaceholder";
+import PosterPlaceholder from "@/components/PosterPlaceholder";
 import MetaLabel from "@/components/MetaLabel";
 import { getAllFilms, getFilmBySlug } from "@/lib/films";
 
@@ -85,6 +86,9 @@ export default async function FilmPage({
           {film.roles?.length ? (
             <MetaLabel className="mt-5">{film.roles.join(" · ")}</MetaLabel>
           ) : null}
+          {film.kindNote ? (
+            <p className="mt-3 text-sm text-ink-muted">{film.kindNote}</p>
+          ) : null}
         </header>
 
         {/* Poster + synopsis */}
@@ -99,7 +103,7 @@ export default async function FilmPage({
                 className="aspect-[2/3] w-full object-cover"
               />
             ) : (
-              <ImagePlaceholder label="Poster" aspect="2/3" />
+              <PosterPlaceholder title={film.title} year={film.year} />
             )}
           </div>
           <div>
@@ -228,6 +232,35 @@ export default async function FilmPage({
                     Explore map
                   </Link>
                   .
+                </p>
+              </section>
+            ) : null}
+          </div>
+        ) : null}
+
+        {/* Awards + music */}
+        {film.awards?.length || film.musicNote ? (
+          <div className="mt-20 grid gap-12 border-t border-hairline pt-12 sm:grid-cols-2 sm:gap-16">
+            {film.awards?.length ? (
+              <section aria-label="Awards">
+                <MetaLabel className="mb-5">Recognition</MetaLabel>
+                <ul className="space-y-3">
+                  {film.awards.map((line) => (
+                    <li
+                      key={line}
+                      className="max-w-prose text-sm leading-relaxed text-ink-muted"
+                    >
+                      {line}
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ) : null}
+            {film.musicNote ? (
+              <section aria-label="Music">
+                <MetaLabel className="mb-5">Music</MetaLabel>
+                <p className="max-w-prose text-sm leading-relaxed text-ink-muted">
+                  {film.musicNote}
                 </p>
               </section>
             ) : null}

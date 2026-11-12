@@ -4,15 +4,27 @@ import SectionHeader from "@/components/SectionHeader";
 import ImagePlaceholder from "@/components/ImagePlaceholder";
 import FilmCard from "@/components/FilmCard";
 import MetaLabel from "@/components/MetaLabel";
-import { getAllFilms } from "@/lib/films";
-import { BEYOND_FILM_AREAS, EXPLORE_EXPERIENCES } from "@/content/site";
+import { getFilmBySlug } from "@/lib/films";
+import { beyondFilmSections } from "@/content/beyond-film";
+import { EXPLORE_EXPERIENCES } from "@/content/site";
 
 /**
- * Homepage — the curator of the archive. Each section establishes
- * rhythm and hierarchy for a future feature; none is fully built yet.
+ * Homepage — the curator of the archive. It selects; the sections
+ * themselves live elsewhere.
  */
+
+/** Curated homepage selection — the films with the deepest records. */
+const FEATURED_FILM_SLUGS = [
+  "annie-hall",
+  "manhattan",
+  "hannah-and-her-sisters",
+  "midnight-in-paris",
+];
+
 export default function HomePage() {
-  const films = getAllFilms();
+  const featuredFilms = FEATURED_FILM_SLUGS.map(getFilmBySlug).filter(
+    (film) => film !== undefined
+  );
 
   return (
     <>
@@ -38,8 +50,8 @@ export default function HomePage() {
                 Woody Allen
               </h1>
               <p className="mt-5 max-w-md text-sm leading-relaxed text-ink-muted sm:text-base">
-                Six decades of films, writing, theatre and music, in one
-                place.
+                Fifty films, the books, the stage and the clarinet — six
+                decades of work, in one place.
               </p>
             </Container>
           </div>
@@ -50,23 +62,16 @@ export default function HomePage() {
       <section aria-labelledby="home-films" className="pt-20 sm:pt-28">
         <Container>
           <SectionHeader
-            eyebrow="The Work"
             id="home-films"
+            eyebrow="The Work"
             title="Films"
-            description="The complete filmography, from the first picture to the most recent."
-            link={{ label: "All films", href: "/films" }}
+            description="Fifty features, 1966 to 2023 — every one of them written or co-written by Allen. A fifty-first is in production."
+            link={{ label: "The complete filmography", href: "/films" }}
           />
           <div className="mt-10 grid grid-cols-2 gap-x-5 gap-y-10 sm:gap-x-8 lg:grid-cols-4">
-            {films.slice(0, 2).map((film) => (
+            {featuredFilms.map((film) => (
               <FilmCard key={film.slug} film={film} />
             ))}
-            {/* Placeholder slots until the filmography is populated. */}
-            <div className="hidden lg:block">
-              <ImagePlaceholder label="Poster" aspect="2/3" />
-            </div>
-            <div className="hidden lg:block">
-              <ImagePlaceholder label="Poster" aspect="2/3" />
-            </div>
           </div>
         </Container>
       </section>
@@ -78,9 +83,12 @@ export default function HomePage() {
             <div className="flex flex-col gap-6 sm:flex-row sm:items-baseline sm:justify-between">
               <div>
                 <MetaLabel className="mb-3">On This Day</MetaLabel>
-                <p id="home-on-this-day" className="max-w-xl font-display text-2xl leading-snug tracking-tight sm:text-3xl">
-                  A daily note from the archive — premieres, openings and
-                  moments, matched to the date.
+                <p
+                  id="home-on-this-day"
+                  className="max-w-xl font-display text-2xl leading-snug tracking-tight sm:text-3xl"
+                >
+                  Releases, openings and premieres from six decades, matched
+                  to the date — a daily note from the archive, in development.
                 </p>
               </div>
               <Link
@@ -98,17 +106,17 @@ export default function HomePage() {
       <section aria-labelledby="home-archive" className="pt-20 sm:pt-28">
         <Container>
           <SectionHeader
-            eyebrow="The Material"
             id="home-archive"
+            eyebrow="The Material"
             title="From the Archive"
-            description="Screenplays, photography, posters and production material — the original record behind the finished work."
+            description="The record behind the films — among it, some 275 scanned screenplay pages from Annie Hall, original cast documents, and poster artwork from around the world."
             link={{ label: "Enter the archive", href: "/archive" }}
           />
           <div className="mt-10 grid grid-cols-2 gap-5 sm:gap-8 lg:grid-cols-3">
-            <ImagePlaceholder label="Screenplay page" aspect="3/4" />
-            <ImagePlaceholder label="Photography" aspect="3/4" />
+            <ImagePlaceholder label="Annie Hall — screenplay page" aspect="3/4" />
+            <ImagePlaceholder label="Cast biography document" aspect="3/4" />
             <ImagePlaceholder
-              label="Poster artwork"
+              label="International poster artwork"
               aspect="3/4"
               className="hidden lg:flex"
             />
@@ -120,10 +128,10 @@ export default function HomePage() {
       <section aria-labelledby="home-explore" className="pt-20 sm:pt-28">
         <Container>
           <SectionHeader
-            eyebrow="New Ways In"
             id="home-explore"
+            eyebrow="New Ways In"
             title="Explore"
-            description="Map, Timeline, On This Day, Quotes, By the Numbers — different routes through the same body of work."
+            description="Different routes through the same six decades. The Timeline and By the Numbers are open; the Map is in development."
             link={{ label: "Explore", href: "/explore" }}
           />
           <ul className="mt-10">
@@ -138,8 +146,8 @@ export default function HomePage() {
                       {experience.title}
                     </span>
                   </span>
-                  <span className="hidden max-w-sm text-right text-sm text-ink-muted sm:block">
-                    {experience.description}
+                  <span className="hidden text-right text-sm text-ink-muted sm:block">
+                    {experience.concept}
                   </span>
                 </Link>
               </li>
@@ -152,18 +160,30 @@ export default function HomePage() {
       <section aria-labelledby="home-beyond" className="pt-20 sm:pt-28">
         <Container>
           <SectionHeader
-            eyebrow="Also"
             id="home-beyond"
+            eyebrow="Also"
             title="Beyond Film"
-            description="Books, theatre, music, television."
+            description="Seven books, a dozen works for the stage, fifty years of Monday-night jazz, and the television rooms where it all began."
             link={{ label: "Beyond film", href: "/beyond-film" }}
           />
           <div className="mt-10 grid grid-cols-2 gap-5 sm:gap-8 lg:grid-cols-4">
-            {BEYOND_FILM_AREAS.map((area) => (
-              <div key={area.slug}>
-                <ImagePlaceholder label={area.title} aspect="4/5" />
-                <p className="mt-3 text-sm">{area.title}</p>
-              </div>
+            {beyondFilmSections.map((section) => (
+              <Link
+                key={section.slug}
+                href="/beyond-film"
+                className="group block"
+              >
+                <div className="overflow-hidden">
+                  <div className="transition-transform duration-500 ease-out group-hover:scale-[1.02] motion-reduce:transform-none">
+                    <ImagePlaceholder label={section.mediaLabel} aspect="4/5" />
+                  </div>
+                </div>
+                <p className="mt-3 text-sm">
+                  <span className="underline decoration-transparent underline-offset-4 transition-colors duration-300 group-hover:decoration-ink-muted">
+                    {section.title}
+                  </span>
+                </p>
+              </Link>
             ))}
           </div>
         </Container>
@@ -173,8 +193,8 @@ export default function HomePage() {
       <section aria-labelledby="home-latest" className="pt-20 sm:pt-28">
         <Container>
           <SectionHeader
-            eyebrow="Current"
             id="home-latest"
+            eyebrow="Current"
             title="Latest"
             description="News and current work."
             link={{ label: "All news", href: "/news" }}

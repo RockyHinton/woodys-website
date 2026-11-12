@@ -11,7 +11,7 @@ export default function OnThisDayPage() {
     <ExploreExperiencePage
       slug="on-this-day"
       placeholderLabel="Today's entry"
-      note="Each day this page will surface a release, an opening or a moment from the archive that happened on this date. The logic is deliberately not built yet."
+      note="A calendar of verified dates — releases, openings, premieres — already exists in the research behind this site, and no event has been manufactured to fill a date: some days will simply have none. The daily feature will be built on that calendar in its own phase."
     />
   );
 }

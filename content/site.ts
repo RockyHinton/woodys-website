@@ -20,101 +20,64 @@ export const NAV_ITEMS: NavItem[] = [
   { label: "News", href: "/news" },
 ];
 
-/** Archive = the original material behind the finished work. */
-export const ARCHIVE_CATEGORIES = [
-  {
-    slug: "screenplays",
-    title: "Screenplays",
-    description:
-      "Scripts, drafts and annotated pages from across the filmography.",
-  },
-  {
-    slug: "photography",
-    title: "Photography",
-    description: "On-set and portrait photography from six decades of work.",
-  },
-  {
-    slug: "posters-and-artwork",
-    title: "Posters & International Artwork",
-    description:
-      "Original release posters and artwork from around the world.",
-  },
-  {
-    slug: "production-material",
-    title: "Production Material",
-    description: "Call sheets, schedules and material from the productions.",
-  },
-  {
-    slug: "notes-and-documents",
-    title: "Notes & Documents",
-    description: "Working notes, correspondence and documents.",
-  },
-  {
-    slug: "behind-the-scenes",
-    title: "Behind the Scenes",
-    description: "The work in progress, photographed and recorded.",
-  },
-] as const;
+/*
+ * Archive category content lives in content/archive.ts, including the
+ * confirmed holdings sourced from the legacy-site audit.
+ */
 
-/** Explore = new ways of discovering relationships across the work. */
+/**
+ * Explore = new ways of discovering relationships across the work.
+ * status: "live" experiences carry real content; "foundation" pages
+ * mark where a future experience will live.
+ */
 export const EXPLORE_EXPERIENCES = [
-  {
-    slug: "map",
-    title: "Map",
-    href: "/explore/map",
-    description:
-      "The filming locations of every film, from Manhattan to Paris, plotted on a single map.",
-  },
   {
     slug: "timeline",
     title: "Timeline",
     href: "/explore/timeline",
+    concept: "The work through time.",
     description:
-      "The complete body of work — films, books, theatre and music — laid out year by year.",
-  },
-  {
-    slug: "on-this-day",
-    title: "On This Day",
-    href: "/explore/on-this-day",
-    description:
-      "Releases, openings and moments from the archive, matched to today's date.",
-  },
-  {
-    slug: "quotes",
-    title: "Quotes",
-    href: "/explore/quotes",
-    description: "Lines from the films and the writing, collected.",
+      "Films, books, theatre and music in one chronology, 1935 to now.",
+    status: "live",
   },
   {
     slug: "by-the-numbers",
     title: "By the Numbers",
     href: "/explore/by-the-numbers",
+    concept: "The career in figures.",
     description:
-      "The career in figures — films, collaborators, cities, decades.",
+      "Fifty features, three editors, one language change — counted carefully.",
+    status: "live",
+  },
+  {
+    slug: "quotes",
+    title: "Quotes",
+    href: "/explore/quotes",
+    concept: "Lines from the films and the writing.",
+    description:
+      "A verified collection, grown slowly — with a note on why that matters.",
+    status: "live",
+  },
+  {
+    slug: "map",
+    title: "Map",
+    href: "/explore/map",
+    concept: "The films through place.",
+    description:
+      "Every confirmed filming location, from Coney Island to San Sebastián.",
+    status: "foundation",
+  },
+  {
+    slug: "on-this-day",
+    title: "On This Day",
+    href: "/explore/on-this-day",
+    concept: "Moments from the archive, by date.",
+    description: "Releases, openings and premieres, matched to today.",
+    status: "foundation",
   },
 ] as const;
 
-/** Beyond Film = the work outside the filmography. */
-export const BEYOND_FILM_AREAS = [
-  {
-    slug: "books-and-writing",
-    title: "Books & Writing",
-    description:
-      "Collections, prose and pieces for the page, from The New Yorker onward.",
-  },
-  {
-    slug: "theatre",
-    title: "Theatre",
-    description: "Plays and productions for the stage.",
-  },
-  {
-    slug: "music",
-    title: "Music",
-    description: "The clarinet, the Eddy Davis New Orleans Jazz Band, and a lifetime of Monday nights.",
-  },
-  {
-    slug: "television-and-other",
-    title: "Television & Other",
-    description: "Television work, stand-up and everything in between.",
-  },
-] as const;
+/*
+ * Beyond Film section content lives in content/beyond-film.ts
+ * (single source for both the landing page and homepage teaser).
+ */

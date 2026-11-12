@@ -3,7 +3,7 @@ import ExploreExperiencePage from "@/components/ExploreExperiencePage";
 
 export const metadata: Metadata = {
   title: "Map",
-  description: "The filming locations of every film, plotted on one map.",
+  description: "The films through place — every confirmed filming location.",
 };
 
 export default function MapPage() {
@@ -11,7 +11,7 @@ export default function MapPage() {
     <ExploreExperiencePage
       slug="map"
       placeholderLabel="Interactive map"
-      note="An interactive map will live here, drawing on the filming locations recorded against each film. The Film data model already carries location names and coordinates."
+      note="Around two hundred confirmed, address-level filming locations have been researched so far — roughly half of them in New York — each one distinguished from the places the films merely depict. The interactive map will be built on that record in its own development phase."
     />
   );
 }
