@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import Container from "@/components/Container";
 import MetaLabel from "@/components/MetaLabel";
+import TrailBar from "@/components/TrailBar";
+import SequenceNav from "@/components/SequenceNav";
 import { formatDate, getAllArticles, getArticleBySlug } from "@/lib/news";
 
 export function generateStaticParams() {
@@ -34,8 +35,10 @@ export default async function NewsArticlePage({
   if (!article) notFound();
 
   return (
-    <Container>
-      <article className="mx-auto max-w-2xl">
+    <>
+      <TrailBar label="News" href="/news" />
+      <Container>
+        <article className="mx-auto max-w-2xl">
         <header className="pt-16 sm:pt-24">
           <MetaLabel className="mb-4">
             {article.category} ·{" "}
@@ -60,15 +63,12 @@ export default async function NewsArticlePage({
             </p>
           ))}
         </div>
-        <nav aria-label="News" className="mt-16 border-t border-hairline pt-8">
-          <Link
-            href="/news"
-            className="text-sm text-ink-muted transition-colors duration-200 hover:text-ink"
-          >
-            ← All news
-          </Link>
-        </nav>
-      </article>
-    </Container>
+          <SequenceNav
+            ariaLabel="News"
+            parent={{ label: "All News", href: "/news" }}
+          />
+        </article>
+      </Container>
+    </>
   );
 }

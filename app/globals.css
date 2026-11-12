@@ -69,6 +69,18 @@ body {
   outline-offset: 3px;
 }
 
+/* Mobile navigation overlay entrance. */
+@keyframes menu-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 /* Respect reduced-motion preferences globally. */
 @media (prefers-reduced-motion: reduce) {
   *,

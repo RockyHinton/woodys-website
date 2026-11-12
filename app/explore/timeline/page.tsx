@@ -4,6 +4,8 @@ import Container from "@/components/Container";
 import PageIntro from "@/components/PageIntro";
 import ImagePlaceholder from "@/components/ImagePlaceholder";
 import MetaLabel from "@/components/MetaLabel";
+import TrailBar from "@/components/TrailBar";
+import SequenceNav from "@/components/SequenceNav";
 import { timelineEvents } from "@/content/timeline";
 import type { TimelineEvent } from "@/lib/types";
 
@@ -69,9 +71,10 @@ export default function TimelinePage() {
   const decades = groupByDecade(timelineEvents);
 
   return (
-    <Container>
+    <>
+      <TrailBar label="Explore" href="/explore" />
+      <Container>
       <PageIntro
-        eyebrow="Explore"
         title="Timeline"
         lede="The work through time. Films, books, theatre and music in one chronology — a selection of the moments that carry the arc, from Brooklyn in 1935 to the production now shooting in Madrid."
       />
@@ -131,14 +134,11 @@ export default function TimelinePage() {
         </section>
       ))}
 
-      <nav aria-label="Explore" className="border-t border-hairline py-8">
-        <Link
-          href="/explore"
-          className="text-sm text-ink-muted transition-colors duration-200 hover:text-ink"
-        >
-          ← All ways to explore
-        </Link>
-      </nav>
-    </Container>
+      <SequenceNav
+        ariaLabel="Explore"
+        parent={{ label: "All Ways to Explore", href: "/explore" }}
+      />
+      </Container>
+    </>
   );
 }

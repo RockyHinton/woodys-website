@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import Container from "@/components/Container";
 import PageIntro from "@/components/PageIntro";
 import MetaLabel from "@/components/MetaLabel";
+import TrailBar from "@/components/TrailBar";
+import SequenceNav from "@/components/SequenceNav";
 import { statisticGroups, statisticsMethodNote } from "@/content/statistics";
 
 export const metadata: Metadata = {
@@ -18,9 +19,10 @@ export const metadata: Metadata = {
  */
 export default function ByTheNumbersPage() {
   return (
-    <Container>
+    <>
+      <TrailBar label="Explore" href="/explore" />
+      <Container>
       <PageIntro
-        eyebrow="Explore"
         title="By the Numbers"
         lede="The career in figures. Every number here is counted from the research record behind this site, and every number keeps its rule — because a figure without its definition is a figure waiting to be contradicted."
       />
@@ -67,14 +69,11 @@ export default function ByTheNumbersPage() {
         {statisticsMethodNote}
       </p>
 
-      <nav aria-label="Explore" className="border-t border-hairline py-8">
-        <Link
-          href="/explore"
-          className="text-sm text-ink-muted transition-colors duration-200 hover:text-ink"
-        >
-          ← All ways to explore
-        </Link>
-      </nav>
-    </Container>
+      <SequenceNav
+        ariaLabel="Explore"
+        parent={{ label: "All Ways to Explore", href: "/explore" }}
+      />
+      </Container>
+    </>
   );
 }

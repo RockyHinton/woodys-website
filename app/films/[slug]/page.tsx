@@ -6,6 +6,8 @@ import Container from "@/components/Container";
 import ImagePlaceholder from "@/components/ImagePlaceholder";
 import PosterPlaceholder from "@/components/PosterPlaceholder";
 import MetaLabel from "@/components/MetaLabel";
+import TrailBar from "@/components/TrailBar";
+import SequenceNav from "@/components/SequenceNav";
 import { getAllFilms, getFilmBySlug } from "@/lib/films";
 
 export function generateStaticParams() {
@@ -41,8 +43,15 @@ export default async function FilmPage({
   const film = getFilmBySlug(slug);
   if (!film) notFound();
 
+  // Neighbours in the chronology (the list is newest first).
+  const allFilms = getAllFilms();
+  const index = allFilms.findIndex((entry) => entry.slug === slug);
+  const earlier = index < allFilms.length - 1 ? allFilms[index + 1] : undefined;
+  const later = index > 0 ? allFilms[index - 1] : undefined;
+
   return (
     <article>
+      <TrailBar label="Films" href="/films" />
       {/* Hero */}
       <div className="border-b border-hairline">
         {film.heroImage ? (
@@ -303,15 +312,28 @@ export default async function FilmPage({
           </section>
         ) : null}
 
-        {/* Back link */}
-        <nav aria-label="Filmography" className="mt-20 border-t border-hairline pt-8">
-          <Link
-            href="/films"
-            className="text-sm text-ink-muted transition-colors duration-200 hover:text-ink"
-          >
-            ← All films
-          </Link>
-        </nav>
+        <SequenceNav
+          ariaLabel="Filmography"
+          parent={{ label: "All Films", href: "/films" }}
+          previous={
+            earlier
+              ? {
+                  label: earlier.title,
+                  meta: `Earlier · ${earlier.year}`,
+                  href: `/films/${earlier.slug}`,
+                }
+              : undefined
+          }
+          next={
+            later
+              ? {
+                  label: later.title,
+                  meta: `Later · ${later.year}`,
+                  href: `/films/${later.slug}`,
+                }
+              : undefined
+          }
+        />
       </Container>
     </article>
   );

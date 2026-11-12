@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import NavigationTracker from "@/components/NavigationTracker";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://woodyallen.com"),
@@ -28,6 +29,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         >
           Skip to content
         </a>
+        <NavigationTracker />
         <Header />
         <main id="content" className="flex-1">
           {children}

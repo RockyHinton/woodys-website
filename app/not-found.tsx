@@ -1,6 +1,6 @@
-import Link from "next/link";
 import Container from "@/components/Container";
 import MetaLabel from "@/components/MetaLabel";
+import Trail from "@/components/Trail";
 
 export default function NotFound() {
   return (
@@ -14,12 +14,7 @@ export default function NotFound() {
           The page you were looking for doesn&apos;t exist, or hasn&apos;t
           been built yet.
         </p>
-        <Link
-          href="/"
-          className="mt-8 inline-block text-sm underline decoration-hairline-strong underline-offset-4 transition-colors duration-200 hover:decoration-ink-muted"
-        >
-          Back to the start
-        </Link>
+        <Trail label="Back to the Start" href="/" className="mt-8" />
       </div>
     </Container>
   );

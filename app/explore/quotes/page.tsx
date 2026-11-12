@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import Container from "@/components/Container";
 import PageIntro from "@/components/PageIntro";
 import MetaLabel from "@/components/MetaLabel";
+import TrailBar from "@/components/TrailBar";
+import SequenceNav from "@/components/SequenceNav";
 import { quotesStandardNote, verifiedStatements } from "@/content/quotes";
 
 export const metadata: Metadata = {
@@ -18,9 +19,10 @@ export const metadata: Metadata = {
  */
 export default function QuotesPage() {
   return (
-    <Container>
+    <>
+      <TrailBar label="Explore" href="/explore" />
+      <Container>
       <PageIntro
-        eyebrow="Explore"
         title="Quotes"
         lede="Lines from the films and the writing. This collection publishes a quotation only once it has been verified against a primary source — so it starts small, and it is right."
       />
@@ -65,14 +67,11 @@ export default function QuotesPage() {
         </div>
       </section>
 
-      <nav aria-label="Explore" className="border-t border-hairline py-8">
-        <Link
-          href="/explore"
-          className="text-sm text-ink-muted transition-colors duration-200 hover:text-ink"
-        >
-          ← All ways to explore
-        </Link>
-      </nav>
-    </Container>
+      <SequenceNav
+        ariaLabel="Explore"
+        parent={{ label: "All Ways to Explore", href: "/explore" }}
+      />
+      </Container>
+    </>
   );
 }
